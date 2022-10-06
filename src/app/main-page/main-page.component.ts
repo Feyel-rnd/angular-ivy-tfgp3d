@@ -18,6 +18,7 @@ export class MainPageComponent implements OnInit {
    username : any;
    userid : any;
    email : any;
+   result : any;
   // app : any
   authorized : boolean;
   app = environment.application
@@ -35,7 +36,7 @@ export class MainPageComponent implements OnInit {
   ngOnInit() {
     
     
-    this.app = new Realm.App('data-icqqg')
+    
     //this.userRefreshToken = sessionStorage.getItem("userRefreshToken");
     this.userRefreshToken = sessionStorage.getItem("userRefreshToken");
     //console.log(this.app.currentUser)
@@ -45,8 +46,12 @@ export class MainPageComponent implements OnInit {
     this.authorized = sessionStorage.getItem("userId")=="6322ffbb91365a9b736d5a77";
   const mongo = this.app.currentUser.mongoClient('Cluster0');
   const collection = mongo.db('Data').collection("Analyses");
+  const collection2 = mongo.db('Users').collection("Example ID");
   collection.find({active:true}).then((value)=>{
     this.analyses_actives = value.length.toString()
+  })
+  collection2.find({}).then((value)=>{
+    this.result = value[0]["owner_id"]
   })
     //sessionStorage.getItem("userRefreshToken");
     //sessionStorage.getItem("email");
